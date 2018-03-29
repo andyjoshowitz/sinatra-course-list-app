@@ -5,5 +5,6 @@ class CreateCourses < ActiveRecord::Migration[5.1]
       t.string :department
       t.string :location
       t.string :professor
+    end
   end
 end
