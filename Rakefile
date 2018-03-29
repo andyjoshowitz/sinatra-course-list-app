@@ -1,5 +1,8 @@
-#require "bundler/gem_tasks"
-#task :default => :spec
+ENV["SINATRA_ENV"] ||= "development"
 
-require './config/environment'
+require_relative './config/environment'
 require 'sinatra/activerecord/rake'
+
+
+
+# Type `rake -T` on your command line to see the available rake tasks.
