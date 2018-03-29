@@ -1,0 +1,6 @@
+<h2><%=@user.username%> Courses</h2>
+<ul>
+  <%@user.courses.each do |course|%>
+    <li><%=course.title%></li>
+  <%end%>
+</ul>
