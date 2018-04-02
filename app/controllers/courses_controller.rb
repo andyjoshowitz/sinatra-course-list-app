@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   get "/courses" do
     redirect_if_not_logged_in
     @courses = Course.all
-    erb :'courses/index'
+    erb :'courses/courses'
   end
 
   get "/courses/new_course" do
@@ -19,29 +19,29 @@ class CoursesController < ApplicationController
     erb :'courses/edit'
   end
 
-  post "/bags/:id" do
+  post "/courses/:id" do
     redirect_if_not_logged_in
     @course = Course.find(params[:id])
     unless Course.valid_params?(params)
-      redirect "/courses/#{@bag.id}/edit?error=invalid golf bag"
+      redirect "/courses/#{@course.id}/edit?error=invalid course"
     end
     @course.update(params.select{|k|k=="name" || k=="capacity"})
-    redirect "/courses/#{@bag.id}"
+    redirect "/courses/#{@course.id}"
   end
 
   get "/courses/:id" do
     redirect_if_not_logged_in
     @course = Course.find(params[:id])
-    erb :'courses/show'
+    erb :'courses/show_courses'
   end
 
   post "/courses" do
     redirect_if_not_logged_in
 
     unless Course.valid_params?(params)
-      redirect "/courses/new?error=invalid golf bag"
+      redirect "/courses/new?error=invalid course"
     end
     Course.create(params)
-    redirect "/courses"
+    redirect "/courses/courses"
   end
 end
