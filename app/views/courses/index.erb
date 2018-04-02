@@ -1,0 +1,16 @@
+<h1><%= @user.name %>'s Courses</h1>
+<br>
+<%if @courses.empty?%>
+  <%="You have no courses :("%>
+<%else%>
+  <ul>
+    <%@courses.each do |course|%>
+      <li><a href="/courses/<%=course.id%>"><%=course.content%></a></li>
+    <%end%>
+  </ul>
+<%end%>
+<h3>Options:</h3>
+<ul>
+  <li><a href="/courses/new">Add a new course</a></li>
+  <li><a href="/logout">Log Out</a></li>
+</ul>
