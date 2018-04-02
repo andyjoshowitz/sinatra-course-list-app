@@ -1,15 +1,15 @@
 class CoursesController < ApplicationController
 
-  get "/coucoursesrses" do
+  get "/courses" do
     redirect_if_not_logged_in
     @courses = Course.all
-    erb :'golf_bags/index'
+    erb :'courses/index'
   end
 
-  get "/courses/new" do
+  get "/courses/new_course" do
     redirect_if_not_logged_in
     @error_message = params[:error]
-    erb :'courses/new'
+    erb :'courses/new_course'
   end
 
   get "/courses/:id/edit" do
