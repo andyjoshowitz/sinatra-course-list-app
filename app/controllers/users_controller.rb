@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     if !session[:user_id]
       erb :'users/new_user'
     else
-      redirect to '/clubs'
+      redirect to '/courses'
     end
   end
 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    #@error_message = params[:error]
+    @error_message = params[:error]
     if !session[:user_id]
       erb :'users/login'
     else
