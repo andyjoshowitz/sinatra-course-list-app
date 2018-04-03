@@ -63,7 +63,7 @@ class CoursesController < ApplicationController
         @course.professor = params[:professor]
         @course.location = params[:location]
         @course.save
-        redirect to "/courses/#{@course.id}"
+        erb :'courses/show_courses' 
       end
     else
       redirect to '/login'

@@ -26,21 +26,12 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    user = User.find_by(name: params[:name])
-    if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect to '/courses'
+    if @user = User.find_by(email: params["email"], password: params["password"])
+      session[:id] = @user.id
     else
-      redirect to '/failed_login'
+      redirect '/login'
     end
-  end
-
-  get '/failed_login' do
-    if !session[:user_id]
-      erb :'users/failed_login'
-    else
-      redirect to '/courses'
-    end
+    redirect '/show'
   end
 
   get '/show' do
