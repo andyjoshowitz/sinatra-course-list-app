@@ -2,9 +2,9 @@
 class CoursesController < ApplicationController
 
   get '/courses' do
-    if session[:user_id]
-      @user = User.find_by_id(session[:user_id])
-      @courses = Course.all
+    if session[:id]
+      @user = User.find_by_id(session[:id])
+      @courses = Course.all.user_id
       erb :'courses/courses'
     else
       redirect to '/login'
@@ -12,7 +12,7 @@ class CoursesController < ApplicationController
   end
 
   get '/courses/new' do
-    if session[:user_id]
+    if session[:id]
       erb :'courses/new_course'
     else
       redirect to '/login'
@@ -20,18 +20,18 @@ class CoursesController < ApplicationController
   end
 
   post '/courses/new' do
-    if user = User.find_by_id(session[:user_id])
+    if user = User.find_by_id(session[:id])
       if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
         course = user.courses.last
         redirect to :"/courses/#{course.id}"
       end
     else
-      redirect to '/courses/new_course'
+      redirect to '/courses/new'
     end
   end
 
   get '/courses/:id' do
-    if session[:user_id]
+    if session[:id]
       @course = Course.find_by_id(params[:id])
       erb :'/courses/show_courses'
     else
@@ -40,8 +40,8 @@ class CoursesController < ApplicationController
   end
 
   get '/courses/:id/edit' do
-    if session[:user_id]
-      user = User.find_by_id(session[:user_id])
+    if session[:id]
+      user = User.find_by_id(session[:id])
       @course = Course.find_by_id(params[:id])
       if user.courses.include?(@course)
         erb :'courses/edit'
@@ -52,7 +52,7 @@ class CoursesController < ApplicationController
   end
 
   patch '/courses/:id' do
-    if logged_in?
+    if session[:id]
       if params[:title] == ""
         redirect to "/courses/#{params[:id]}/edit"
       else
@@ -63,7 +63,7 @@ class CoursesController < ApplicationController
         @course.professor = params[:professor]
         @course.location = params[:location]
         @course.save
-        erb :'courses/show_courses' 
+        erb :'courses/show_courses'
       end
     else
       redirect to '/login'
@@ -71,7 +71,7 @@ class CoursesController < ApplicationController
   end
 
   post '/courses/:id' do
-    if session[:user_id]
+    if session[:id]
       @course = Course.find_by_id(params[:id])
       erb :'/courses/show_courses'
     else
@@ -80,8 +80,8 @@ class CoursesController < ApplicationController
   end
 
   delete '/courses/:id/delete' do
-    if session[:user_id]
-      user = User.find_by_id(session[:user_id])
+    if session[:id]
+      user = User.find_by_id(session[:id])
       course = Course.find_by_id(params[:id])
       if i = user.courses.find_index(course)
         user.courses[i].delete
