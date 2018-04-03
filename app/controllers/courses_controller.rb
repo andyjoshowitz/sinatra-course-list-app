@@ -5,12 +5,6 @@ class CoursesController < ApplicationController
     if session[:user_id]
       @user = User.find_by_id(session[:user_id])
       @courses = Course.all
-      @courses.each do |course|
-        course.title = params[:title]
-        course.department = params[:department]
-        course.professor = params[:professor]
-        course.location = params[:location]
-      end
       erb :'courses/courses'
     else
       redirect to '/login'
