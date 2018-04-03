@@ -26,12 +26,14 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    if @user = User.find_by(email: params["email"], password: params["password"])
-      session[:id] = @user.id
+    user = User.find_by(name: params[:name])
+    binding.pry
+    if user && user.authenticate(params[:password])
+      session[:id] = user.id
+      redirect '/show'
     else
       redirect '/login'
     end
-    redirect '/show'
   end
 
   get '/show' do

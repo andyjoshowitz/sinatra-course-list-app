@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
   get '/courses' do
     if session[:id]
       @user = User.find_by_id(session[:id])
-      @courses = Course.all.user_id
+      @courses = @user.courses
       erb :'courses/courses'
     else
       redirect to '/login'
