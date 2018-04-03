@@ -1,5 +1,5 @@
 
-class TweetsController < ApplicationController
+class CoursesController < ApplicationController
 
   get '/courses' do
     if session[:user_id]
@@ -21,12 +21,12 @@ class TweetsController < ApplicationController
 
   post '/courses/new' do
     if user = User.find_by_id(session[:user_id])
-      if user.courses << Course.new(content: params[:content])
+      if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location], )
         course = user.courses.last
         redirect to :"/courses/#{course.id}"
       end
     else
-      redirect to '/courses/new'
+      redirect to '/courses/new_course'
     end
   end
 
@@ -56,7 +56,7 @@ class TweetsController < ApplicationController
       user = User.find_by_id(session[:user_id])
       course = Course.find_by_id(params[:id])
       if i = user.courses.find_index(course)
-        user.courses[i].content = params[:content]
+        user.courses[i].title = params[:title]
         @course = user.courses[i]
         if @course.save
           erb :'courses/show_courses'

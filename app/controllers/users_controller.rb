@@ -8,10 +8,9 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    new_user = User.new(name: params[:name], email: params[:email], password: params[:password])
+    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
     if new_user.save
       session[:user_id] = new_user[:id]
-      @user = new_user
       redirect to '/courses'
     else
       redirect to '/signup'
@@ -27,12 +26,20 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    user = User.find_by(username: params[:username])
+    user = User.find_by(name: params[:name])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect to '/courses'
     else
       redirect to '/login'
+    end
+  end
+
+  get '/show' do
+    if !session[:user_id]
+      erb :'users/show'
+    else
+      redirect to '/courses'
     end
   end
 
