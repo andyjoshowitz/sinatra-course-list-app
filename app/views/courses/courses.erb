@@ -7,7 +7,7 @@
     <%@courses.each do |course|%>
       <li><a href="/courses/<%=course.id%>"><%=course.department%> - <%=course.title%></a></li>
       <ul>
-        <li>Professor: <%=course.professor%>/li>
+        <li>Professor: <%=course.professor%></li>
         <li>Location: <%=course.location%></li>
       </ul>
     <%end%>

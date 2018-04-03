@@ -21,7 +21,7 @@ class CoursesController < ApplicationController
 
   post '/courses/new' do
     if user = User.find_by_id(session[:user_id])
-      if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location], )
+      if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
         course = user.courses.last
         redirect to :"/courses/#{course.id}"
       end
@@ -52,16 +52,19 @@ class CoursesController < ApplicationController
   end
 
   patch '/courses/:id' do
-    if session[:user_id]
-      user = User.find_by_id(session[:user_id])
-      course = Course.find_by_id(params[:id])
-      if i = user.courses.find_index(course)
-        user.courses[i].title = params[:title]
-        @course = user.courses[i]
-        if @course.save
-          erb :'courses/show_courses'
+    if logged_in?
+      if params[:title] == ""
+        redirect to "/courses/#{params[:id]}/edit"
+      else
+        @course = Course.find_by_id(params[:id])
+        if @course && @course.user == current_user
+          if @course.update(title: params[:title]) || @course.update(department: params[:department]) || @course.update(professor: params[:professor]) || @course.update(location: params[:location])
+            redirect to "/courses/#{@course.id}"
+          else
+            redirect to "/courses/#{@course.id}/edit"
+          end
         else
-          redirect to "/courses/#{params[:id]}/edit"
+          redirect to '/courses'
         end
       end
     else
