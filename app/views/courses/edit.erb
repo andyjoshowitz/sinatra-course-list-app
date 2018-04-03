@@ -1,17 +1,19 @@
-<h1>Edit <%= @course.name %></h1>
+<h1>Edit <%= @course.title %></h1>
 
 <form action="/courses/<%=@course.id %>" method="POST">
-  <label> Course Title </label>
-  <input type="text" name="title" value="<%=@course.title %>"> <br>
+  <ul>
+    <li><label> Course Title: </label>
+    <input type="text" name="title" value="<%=@course.title %>"> <br></li>
 
-  <label> Course Department </label>
-  <input type="text" name="department" value="<%=@course.department%>"> <br>
+    <li><label> Course Department: </label>
+    <input type="text" name="department" value="<%=@course.department%>"> <br></li>
 
-  <label> Course Instructor </label>
-  <input type="text" name="professor" value="<%=@course.professor%>"> <br>
+    <li><label> Course Instructor: </label>
+    <input type="text" name="professor" value="<%=@course.professor%>"> <br></li>
 
-  <label> Course Location </label>
-  <input type="text" name="location" value="<%=@course.location%>"> <br>
+    <li><label> Course Location: </label>
+    <input type="text" name="location" value="<%=@course.location%>"> <br></li>
+  </ul>
 
   <input type="submit" value="Update">
 </form>
