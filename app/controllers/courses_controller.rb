@@ -5,6 +5,12 @@ class CoursesController < ApplicationController
     if session[:user_id]
       @user = User.find_by_id(session[:user_id])
       @courses = Course.all
+      @courses.each do |course|
+        course.title = params[:title]
+        course.department = params[:department]
+        course.professor = params[:professor]
+        course.location = params[:location]
+      end
       erb :'courses/courses'
     else
       redirect to '/login'
@@ -57,16 +63,23 @@ class CoursesController < ApplicationController
         redirect to "/courses/#{params[:id]}/edit"
       else
         @course = Course.find_by_id(params[:id])
-        if @course && @course.user == current_user
-          if @course.update(title: params[:title]) || @course.update(department: params[:department]) || @course.update(professor: params[:professor]) || @course.update(location: params[:location])
-            redirect to "/courses/#{@course.id}"
-          else
-            redirect to "/courses/#{@course.id}/edit"
-          end
-        else
-          redirect to '/courses'
-        end
+        @course && @course.user == current_user
+        @course.title = params[:title]
+        @course.department = params[:department]
+        @course.professor = params[:professor]
+        @course.location = params[:location]
+        @course.save
+        redirect to "/courses/#{@course.id}"
       end
+    else
+      redirect to '/login'
+    end
+  end
+
+  post '/courses/:id' do
+    if session[:user_id]
+      @course = Course.find_by_id(params[:id])
+      erb :'/courses/show_courses'
     else
       redirect to '/login'
     end

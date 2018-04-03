@@ -2,18 +2,14 @@
 
 <form action="/courses/<%=@course.id%>" method="POST">
   <ul>
-    <li><label> Course Title: </label>
-    <input type="text" name="title" value="<%=@course.title %>"> <br></li>
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <li>Course Title: <input type="text" name="title" value="<%=@course.title %>"> <br></li>
 
-    <li><label> Course Department: </label>
-    <input type="text" name="department" value="<%=@course.department%>"> <br></li>
+    <li>Course Department: <input type="text" name="department" value="<%=@course.department%>"> <br></li>
 
-    <li><label> Course Instructor: </label>
-    <input type="text" name="professor" value="<%=@course.professor%>"> <br></li>
+    <li>Course Instructor: <input type="text" name="professor" value="<%=@course.professor%>"> <br></li>
 
-    <li><label> Course Location: </label>
-    <input type="text" name="location" value="<%=@course.location%>"> <br></li>
+    <li>Course Location: <input type="text" name="location" value="<%=@course.location%>"> <br></li>
   </ul>
-
   <input type="submit" value="Update">
 </form>
