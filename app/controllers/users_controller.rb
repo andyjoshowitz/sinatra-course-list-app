@@ -3,17 +3,17 @@ class UsersController < ApplicationController
     if !session[:user_id]
       erb :'users/new_user'
     else
-      redirect to '/show'
+      redirect to '/courses'
     end
   end
 
   post '/signup' do
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
-    if @user.save
-      session[:user_id] = @user[:id]
-      redirect to '/courses'
-    else
+    if params[:name] == "" || params[:password] == ""
       redirect to '/signup'
+    else
+      @user = User.create(:name => params[:name], :email => params[:email], :password => params[:password])
+      session[:user_id] = @user.id
+      redirect '/courses'
     end
   end
 
@@ -31,7 +31,15 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect to '/courses'
     else
-      redirect to '/login'
+      redirect to '/failed_login'
+    end
+  end
+
+  get '/failed_login' do
+    if !session[:user_id]
+      erb :'users/failed_login'
+    else
+      redirect to '/courses'
     end
   end
 
@@ -45,6 +53,6 @@ class UsersController < ApplicationController
 
   get '/logout' do
     session.clear
-    redirect to '/login'
+    redirect to '/'
   end
 end
