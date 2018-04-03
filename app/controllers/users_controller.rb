@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     new_user = User.new(name: params[:name], email: params[:email], password: params[:password])
     if new_user.save
       session[:user_id] = new_user[:id]
+      @user = new_user
       redirect to '/courses'
     else
       redirect to '/signup'

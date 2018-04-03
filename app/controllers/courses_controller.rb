@@ -1,47 +1,84 @@
-class CoursesController < ApplicationController
 
-  get "/courses" do
-    redirect_if_not_logged_in
-    @courses = Course.all
-    erb :'courses/courses'
-  end
+class TweetsController < ApplicationController
 
-  get "/courses/new_course" do
-    redirect_if_not_logged_in
-    @error_message = params[:error]
-    erb :'courses/new_course'
-  end
-
-  get "/courses/:id/edit" do
-    redirect_if_not_logged_in
-    @error_message = params[:error]
-    @course = Course.find(params[:id])
-    erb :'courses/edit'
-  end
-
-  post "/courses/:id" do
-    redirect_if_not_logged_in
-    @course = Course.find(params[:id])
-    unless Course.valid_params?(params)
-      redirect "/courses/#{@course.id}/edit?error=invalid course"
+  get '/courses' do
+    if session[:user_id]
+      @user = User.find_by_id(session[:user_id])
+      @courses = Course.all
+      erb :'courses/courses'
+    else
+      redirect to '/login'
     end
-    @course.update(params.select{|k|k=="name" || k=="capacity"})
-    redirect "/courses/#{@course.id}"
   end
 
-  get "/courses/:id" do
-    redirect_if_not_logged_in
-    @course = Course.find(params[:id])
-    erb :'courses/show_courses'
-  end
-
-  post "/courses" do
-    redirect_if_not_logged_in
-
-    unless Course.valid_params?(params)
-      redirect "/courses/new?error=invalid course"
+  get '/courses/new' do
+    if session[:user_id]
+      erb :'courses/new_course'
+    else
+      redirect to '/login'
     end
-    Course.create(params)
-    redirect "/courses/courses"
+  end
+
+  post '/courses/new' do
+    if user = User.find_by_id(session[:user_id])
+      if user.courses << Course.new(content: params[:content])
+        course = user.courses.last
+        redirect to :"/courses/#{course.id}"
+      end
+    else
+      redirect to '/courses/new'
+    end
+  end
+
+  get '/courses/:id' do
+    if session[:user_id]
+      @course = Course.find_by_id(params[:id])
+      erb :'/courses/show_courses'
+    else
+      redirect to '/login'
+    end
+  end
+
+  get '/courses/:id/edit' do
+    if session[:user_id]
+      user = User.find_by_id(session[:user_id])
+      @course = Course.find_by_id(params[:id])
+      if user.courses.include?(@course)
+        erb :'courses/edit'
+      end
+    else
+      redirect to '/login'
+    end
+  end
+
+  patch '/courses/:id' do
+    if session[:user_id]
+      user = User.find_by_id(session[:user_id])
+      course = Course.find_by_id(params[:id])
+      if i = user.courses.find_index(course)
+        user.courses[i].content = params[:content]
+        @course = user.courses[i]
+        if @course.save
+          erb :'courses/show_courses'
+        else
+          redirect to "/courses/#{params[:id]}/edit"
+        end
+      end
+    else
+      redirect to '/login'
+    end
+  end
+
+  delete '/courses/:id/delete' do
+    if session[:user_id]
+      user = User.find_by_id(session[:user_id])
+      course = Course.find_by_id(params[:id])
+      if i = user.courses.find_index(course)
+        user.courses[i].delete
+        redirect to '/courses'
+      end
+    else
+      redirect to 'login'
+    end
   end
 end
