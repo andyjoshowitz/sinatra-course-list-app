@@ -3,14 +3,16 @@
 <%if @courses.empty?%>
   <%="You have no courses :("%>
 <%else%>
-  <ul>
+  <ol>
     <%@courses.each do |course|%>
       <li><a href="/courses/<%=course.id%>"><%=course.title%></a></li>
-      <li><%=course.department%></a></li>
-      <li><%=course.professor%></a></li>
-      <li><%=course.location%></a></li>
+      <ul>
+        <li><%=course.department%></a></li>
+        <li><%=course.professor%></a></li>
+        <li><%=course.location%></a></li>
+      </ul>
     <%end%>
-  </ul>
+  </ol>
 <%end%>
 <h3>Options:</h3>
 <ul>
