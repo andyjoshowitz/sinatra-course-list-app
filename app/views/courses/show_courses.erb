@@ -1,9 +1,15 @@
-<%= @course.title %><br />
-<%= @course.department %> <br />
-<%= @course.professor %> <br />
-<%= @course.location %> <br />
-
-Course: <a href="/courses/<%=@course.id%>"><%= @course.title %></a> <br />
-<a href="/courses/<%=@club.id%>/edit">Edit Course</a>
+<h1><%= @course.title %><br /></h1>
+<ul>
+  <li>Department: <%= @course.department %></li>
+  <li>Professor: <%= @course.professor %></li>
+  <li>Location: <%= @course.location %></li>
+  <li>Course: <a href="/courses/<%=@course.id%>"><%= @course.title %></a></li>
+</ul>
+<br>
+<h3>Options:</h3>
+<ol>
+  <li><a href="/courses/<%=@course.id%>/edit">Edit Course</a></li>
+  <li><a href="/courses/courses">Your Courses</a></li>
+</ol>
 <br />
 <br />
