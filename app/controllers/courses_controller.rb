@@ -24,9 +24,30 @@ class CoursesController < ApplicationController
       if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
         course = user.courses.last
         redirect to :"/courses/#{course.id}"
+      else
+        redirect to "courses/new_with_error_message"
       end
     else
+      redirect to 'login'
+    end
+  end
+
+  get '/courses/new_with_error_message' do
+    if session[:id]
+      erb :'courses/new_with_error'
+    else
       redirect to '/courses/new'
+    end
+  end
+
+  post '/courses/new_with_error_message' do
+    if user = User.find_by_id(session[:id])
+      if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
+        course = user.courses.last
+        redirect to :"/courses/#{course.id}"
+      end
+    else
+      redirect to '/courses/new_with_error_message'
     end
   end
 
@@ -81,14 +102,16 @@ class CoursesController < ApplicationController
 
   delete '/courses/:id/delete' do
     if session[:id]
-      user = User.find_by_id(session[:id])
-      course = Course.find_by_id(params[:id])
-      if i = user.courses.find_index(course)
-        user.courses[i].delete
-        redirect to '/courses'
-      end
-    else
-      redirect to 'login'
+      @course = Course.find_by_id(params[:id])
+      @course.delete
+      redirect to '/courses'
+#      binding.pry
+#      user = User.find_by_id(session[:id])
+#      course = Course.find_by_id(params[:id])
+#      if i = user.courses.find_index(course)
+#        user.courses[i].delete
+#   else
+#      redirect to 'login'
     end
   end
 end
