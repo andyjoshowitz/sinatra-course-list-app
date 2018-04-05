@@ -1,0 +1,19 @@
+<h1><%= @user.name %>'s Semesters</h1>
+<br>
+<%if @semesters.empty?%>
+  <%="You have no semesters :("%>
+<%else%>
+  <ol>
+    <%@semesters.each do |semester|%>
+      <li><a href="/semesters/<%=semester.id%>"><%=semester.season%> - <%=semester.year%></a></li>
+      <ul>
+        <!--Put list of courses here-->
+      </ul>
+    <%end%>
+  </ol>
+<%end%>
+<h3>Options:</h3>
+<ul>
+  <li><a href="/semesters/new">Add a new semester</a></li>
+  <li><a href="/logout">Log Out</a></li>
+</ul>

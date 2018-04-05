@@ -3,7 +3,7 @@
   <li>Department: <%= @course.department %></li>
   <li>Professor: <%= @course.professor %></li>
   <li>Location: <%= @course.location %></li>
-  <li>Course: <a href="/courses/<%=@course.id%>"><%= @course.title %></a></li>
+  <li>Course: <a href="/semesters/<%@semester.id%>/courses/<%=@course.id%>"><%= @course.title %></a></li>
 </ul>
 <br>
 <h3>Options:</h3>

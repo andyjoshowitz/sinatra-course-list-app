@@ -1,0 +1,11 @@
+<h1>Edit <%= @semester.season %> - <%= @semester.year %></h1>
+
+<form action="/semesters/<%=@semester.id%>" method="POST">
+  <ul>
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <li>Year: <input type="text" name="season" value="<%=@semester.season %>"> <br></li>
+
+    <li>Season: <input type="text" name="year" value="<%=@semester.year%>"> <br></li>year
+  </ul>
+  <input type="submit" value="Update">
+</form>

@@ -5,7 +5,7 @@
 <%else%>
   <ol>
     <%@courses.each do |course|%>
-      <li><a href="/courses/<%=course.id%>"><%=course.department%> - <%=course.title%></a></li>
+      <li><a href="/semesters/<%=semester.id%>/courses/<%=course.id%>"><%=course.department%> - <%=course.title%></a></li>
       <ul>
         <li>Professor: <%=course.professor%></li>
         <li>Location: <%=course.location%></li>
@@ -15,6 +15,6 @@
 <%end%>
 <h3>Options:</h3>
 <ul>
-  <li><a href="/courses/new">Add a new course</a></li>
+  <li><a href="semesters/<%=@semester.id%>/courses/new">Add a new course</a></li>
   <li><a href="/logout">Log Out</a></li>
 </ul>
