@@ -1,7 +1,7 @@
 
 class CoursesController < ApplicationController
 
-  get '/courses' do
+  get '/semesters/:id/courses' do
     if session[:id]
       @user = User.find_by_id(session[:id])
       @semester = Semester.find_by_id(params[:id])

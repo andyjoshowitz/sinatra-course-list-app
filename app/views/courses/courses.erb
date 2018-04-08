@@ -1,5 +1,7 @@
-<h1><%= @user.name %>'s Courses</h1>
-<br>
+<h1><%= @semester.season %> - <%= @semester.year %><br></h1>
+
+<h2>Course List<br></h2>
+
 <%if @courses.empty?%>
   <%="You have no courses :("%>
 <%else%>
@@ -15,6 +17,6 @@
 <%end%>
 <h3>Options:</h3>
 <ul>
-  <li><a href="semesters/<%=@semester.id%>/courses/new">Add a new course</a></li>
+  <li><a href="/semesters/<%=@semester.id%>/courses/new">Add a new course</a></li>
   <li><a href="/logout">Log Out</a></li>
 </ul>
