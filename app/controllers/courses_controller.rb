@@ -1,10 +1,11 @@
 
 class CoursesController < ApplicationController
 
-  get '/semesters/:id/courses' do
+  get '/courses' do
+    binding.pry
     if session[:id]
       @user = User.find_by_id(session[:id])
-      @semester = Semester.find_by_id(params[:id])
+      @semester = @user.semesters.find_by_user_id(session[:id])
       @courses = @semester.courses
       erb :'courses/courses'
     else
@@ -12,21 +13,23 @@ class CoursesController < ApplicationController
     end
   end
 
-  get '/semesters/:id/courses/new' do
+  get '/courses/new' do
     if session[:id]
       erb :'courses/new_course'
     else
-      redirect to '/semesters'
+      redirect to '/semesters/:id/courses'
     end
   end
 
-  post '/semesters/:id/courses/new' do
-    if user = User.find_by_id(session[:id]) && Semester.find_by_id(params[:id])
+  post '/courses/new' do
+    binding.pry
+    if semester = User.find_by_id(session[:id]).semesters[params[:id]]
+      #user = User.find_by_id(session[:id]) && semester = Semester.find_by_id(params[:id])
       if semester.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
-        course = user.courses.last
-        redirect to :"/semester/#{semester.id}/courses/#{course.id}"
+        course = semester.courses.last
+        redirect to :"/courses/#{course.id}"
       else
-        redirect to "courses/new_with_error_message"
+        redirect to "/courses/new_with_error_message"
       end
     else
       redirect to 'login'

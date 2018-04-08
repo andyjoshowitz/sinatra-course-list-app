@@ -7,7 +7,7 @@
 <ol>
   <li><a href="/semesters/<%=@semester.id%>/edit">Edit Semester</a></li>
   <li><a href="/semesters">Your Semesters</a></li>
-  <li><a href="/semesters/<%=@semester.id%>/courses">Semester's Courses</a></li>
+  <li><a href="/courses">Semester's Courses</a></li>
   <li>Delete Semester:
     <form action="/semesters/<%= @semester.id %>/delete" method="post">
       <input id="hidden" type="hidden" name="_method" value="delete">
