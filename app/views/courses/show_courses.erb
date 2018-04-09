@@ -9,7 +9,7 @@
 <h3>Options:</h3>
 <ol>
   <li><a href="/courses/<%=@course.id%>/edit">Edit Course</a></li>
-  <li><a href="/courses">Your Courses</a></li>
+  <li><a href="/semesters/<%=@semester.id%>/courses">Your Courses</a></li>
   <li>Delete Course:
     <form action="/courses/<%= @course.id %>/delete" method="post">
       <input id="hidden" type="hidden" name="_method" value="delete">

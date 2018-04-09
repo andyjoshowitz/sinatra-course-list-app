@@ -1,8 +1,7 @@
 
 class CoursesController < ApplicationController
 
-  get '/courses' do
-    binding.pry
+  get '/semesters/:id/courses' do
     if session[:id]
       @user = User.find_by_id(session[:id])
       @semester = @user.semesters.find_by_user_id(session[:id])
@@ -13,26 +12,28 @@ class CoursesController < ApplicationController
     end
   end
 
-  get '/courses/new' do
+  get '/semesters/:id/courses/new' do
     if session[:id]
+      @semester = Semester.find_by_id(params[:id])
       erb :'courses/new_course'
     else
-      redirect to '/semesters/:id/courses'
+      redirect to '/courses'
     end
   end
 
-  post '/courses/new' do
-    binding.pry
-    if semester = User.find_by_id(session[:id]).semesters[params[:id]]
-      #user = User.find_by_id(session[:id]) && semester = Semester.find_by_id(params[:id])
-      if semester.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
-        course = semester.courses.last
+  post '/semesters/:id/courses/new' do
+    if semester = Semester.find(params[:id])
+      course = Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location], user_id: session[:id])
+      if course.save
+        User.find(session[:id]).semesters.find(params[:id]).courses << course
+        binding.pry
+        #course = semester.courses.last
         redirect to :"/courses/#{course.id}"
       else
         redirect to "/courses/new_with_error_message"
       end
     else
-      redirect to 'login'
+      redirect to '/login'
     end
   end
 
@@ -57,6 +58,8 @@ class CoursesController < ApplicationController
 
   get '/courses/:id' do
     if session[:id]
+      @user = User.find_by_id(session[:id])
+      @semester = @user.semesters.find_by_user_id(session[:id])
       @course = Course.find_by_id(params[:id])
       erb :'/courses/show_courses'
     else
@@ -94,7 +97,7 @@ class CoursesController < ApplicationController
       redirect to '/login'
     end
   end
-
+#:course_id
   post '/courses/:id' do
     if session[:id]
       @course = Course.find_by_id(params[:id])

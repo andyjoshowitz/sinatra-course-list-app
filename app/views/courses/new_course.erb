@@ -1,6 +1,6 @@
 
 <h2>Add a new Course:</h2>
-<form method="POST" action="/courses/new">
+<form method="POST" action="/semesters/<%=@semester.id%>/courses/new">
   <ol>
     <li><input type="text" name="title" id="title", placeholder="title"></li><br>
     <li><input type="text" name="department" id="department", placeholder="department"></li><br>
