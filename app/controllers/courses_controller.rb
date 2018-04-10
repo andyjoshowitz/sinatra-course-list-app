@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
   get '/semesters/:id/courses' do
     if session[:id]
       @user = User.find_by_id(session[:id])
-      @semester = @user.semesters.find_by_user_id(session[:id])
+      @semester = @user.semesters.find(params[:id])
       @courses = @semester.courses
       erb :'courses/courses'
     else

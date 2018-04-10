@@ -3,4 +3,5 @@ class Course < ActiveRecord::Base
   validates :title, uniqueness: true
 
   belongs_to :user, foreign_key: 'user_id'
+  belongs_to :semester
 end
