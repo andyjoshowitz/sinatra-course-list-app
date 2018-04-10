@@ -1,4 +1,4 @@
-<h2><%=@user.name%>'s Courses</h2>
+<h2><%=@user.name.capitalize%>'s Courses</h2>
 <ul>
   <%@user.courses.each do |course|%>
     <li><%=course.title%></li>
