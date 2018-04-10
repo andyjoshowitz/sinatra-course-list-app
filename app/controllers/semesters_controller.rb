@@ -24,9 +24,11 @@ class SemestersController < ApplicationController
       if user.semesters << Semester.new(season: params[:season], year: params[:year])
         semester = user.semesters.last
         redirect to :"/semesters/#{semester.id}"
+      else
+        redirect to 'semesters/new'
       end
     else
-      redirect to '/semesters'
+      redirect to '/login'
     end
   end
 
