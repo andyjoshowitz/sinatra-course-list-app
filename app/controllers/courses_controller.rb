@@ -28,29 +28,10 @@ class CoursesController < ApplicationController
         User.find(session[:id]).semesters.find(params[:id]).courses << course
         redirect to :"/courses/#{course.id}"
       else
-        redirect to "/courses/new_with_error_message"
+        redirect to "/semesters/:id/courses/new"
       end
     else
       redirect to '/login'
-    end
-  end
-
-  get '/courses/new_with_error_message' do
-    if session[:id]
-      erb :'courses/new_with_error'
-    else
-      redirect to '/courses/new'
-    end
-  end
-
-  post '/courses/new_with_error_message' do
-    if user = User.find_by_id(session[:id])
-      if user.courses << Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location])
-        course = user.courses.last
-        redirect to :"/courses/#{course.id}"
-      end
-    else
-      redirect to '/courses/new_with_error_message'
     end
   end
 
