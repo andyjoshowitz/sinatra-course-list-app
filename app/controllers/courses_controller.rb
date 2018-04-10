@@ -79,10 +79,12 @@ class CoursesController < ApplicationController
 
   patch '/courses/:id' do
     if session[:id]
+      @course = Course.find_by_id(params[:id])
+      semester = @course.semester_id
+      @semester = Semester.find_by_id(semester)
       if params[:title] == ""
         redirect to "/courses/#{params[:id]}/edit"
       else
-        @course = Course.find_by_id(params[:id])
         @course && @course.user == current_user
         @course.title = params[:title]
         @course.department = params[:department]
