@@ -26,8 +26,6 @@ class CoursesController < ApplicationController
       course = Course.new(title: params[:title], department: params[:department], professor: params[:professor], location: params[:location], user_id: session[:id])
       if course.save
         User.find(session[:id]).semesters.find(params[:id]).courses << course
-        binding.pry
-        #course = semester.courses.last
         redirect to :"/courses/#{course.id}"
       else
         redirect to "/courses/new_with_error_message"
